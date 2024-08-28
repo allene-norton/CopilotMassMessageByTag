@@ -21,6 +21,7 @@ export const MassMessage = ({ fields }: Props) => {
     customField: "",
     customFieldLabel: "",
     selectedTag: "",
+    selectedTagLabel: "",
   });
   const [tags, setTags] = useState<Tag[]>([]); // State to store the tags
   console.log(tags)
@@ -30,12 +31,16 @@ export const MassMessage = ({ fields }: Props) => {
   const handleChangeValues: ComponentProps<typeof Select>["onChange"] = async (
     event
   ) => {
+    console.log(event)
     const field = event.target.name;
     const value = event.target.value;
+    // Filter fields from props to where e.target.value here matches the field object. Set values.customFieldLabel to fieldObject.name
+    const fieldForLabel = fields.filter(field => field.id === event.target.value)[0]
 
     setValues({
       ...values,
       [field]: value,
+      customFieldLabel: fieldForLabel.key
     });
     // Fetch tags when a new customField is selected
     if (field === 'customField' && value) {
@@ -58,15 +63,41 @@ export const MassMessage = ({ fields }: Props) => {
         console.error('Error fetching tags:', error);
       }
     }
-  };
 
-  const handleTagChange: ComponentProps<typeof Select>["onChange"] = (event) => {
+};
+
+  console.log(values)
+  const handleTagChange: ComponentProps<typeof Select>["onChange"] = async (event) => {
     const value = event.target.value;
+    const tagLabel = tags.filter(tag => tag.id === event.target.value)[0].key
     setValues({
       ...values,
       selectedTag: value,
+      selectedTagLabel: tagLabel
     });
+
+    try {
+      const response = await fetch('/api/retrieveClientsWithTag', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ fieldLabel: values.customFieldLabel, tagLabel: tagLabel }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`MYDATA: ${data[0].givenName}`)
+        setClients(data); 
+      } else {
+        console.error('Failed to fetch tags:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+    }
   };
+
+  console.log(clients)
 
   return (
     

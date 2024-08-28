@@ -3,16 +3,16 @@ import { retrieveClientsWithTag } from '@/actions/fields-message';
 
 export async function POST(request: NextRequest) {
   try {
-    const { fieldLabel, tagId } = await request.json(); 
+    const { fieldLabel, tagLabel } = await request.json(); 
 
     if (!fieldLabel) {
       return NextResponse.json({ error: 'Invalid fieldLabel' }, { status: 400 });
     }
 
-    const clients = await retrieveClientsWithTag(fieldLabel, tagId);
+    const clients = await retrieveClientsWithTag(fieldLabel, tagLabel);
     console.log(clients)
     return NextResponse.json(clients, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch tags' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch clients' }, { status: 500 });
   }
 }

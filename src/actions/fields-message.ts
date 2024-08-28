@@ -1,6 +1,6 @@
 import { copilotApi } from 'copilot-node-sdk';
 import { need } from '@/utils/need';
-import { MultiSelectFields } from '@/app/types';
+import { MultiSelectFields, Client } from '@/app/types';
 
 const apiKey = need<string>(
   process.env.COPILOT_API_KEY
@@ -40,27 +40,28 @@ export async function getTagsFromField(fieldId: string) {
   return data.customFieldOptions
 }
 
-export async function retrieveClientsWithTag(fieldLabel: string, tagId: string) {
+export async function retrieveClientsWithTag(fieldLabel: string, tagLabel: string) {
   const data: {
     allClients: Awaited<ReturnType<typeof copilot.listClients>>;
   } = {
     allClients: await copilot.listClients({limit: 1000})
   }
 
-  let matchingClients: any = []
+  let matchingClients: Array<Client> = []
 
   const clients = data.allClients.data
 
   clients?.forEach(client => {
     // console.log(client)
     if (client.customFields[fieldLabel]){
-      console.log(client)
-      if (client.customFields[fieldLabel].id === tagId){
+      // console.log(client)
+      if (client.customFields[fieldLabel].includes(tagLabel)){
+        console.log('hello')
         matchingClients.push(client)
       }
     }
   })
 
-  console.log(matchingClients)
+  console.log(`matchingClients: ${matchingClients[0].givenName}`)
   return matchingClients
 }
