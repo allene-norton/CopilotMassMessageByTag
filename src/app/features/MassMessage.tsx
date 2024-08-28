@@ -150,6 +150,17 @@ export const MassMessage = ({ fields }: Props) => {
           </Select>
         </div>
       )}
+
+      {clients.length > 0 && (
+        <div>
+          <h3>Clients with tag:</h3>
+          <ul>
+      {clients.map((client, index) => (
+        <li key={index}>{client.givenName} {client.familyName}</li>
+      ))}
+    </ul>
+        </div>
+      )}
     </div>
   );
 };
