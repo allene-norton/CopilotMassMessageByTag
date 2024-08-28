@@ -30,3 +30,12 @@ export async function getTagsFields () {
   return multiSelectFields
 }
 
+export async function getTagsFromField(fieldId: string) {
+  const data: {
+    customFieldOptions: Awaited<ReturnType<typeof copilot.listCustomFieldOptions>>;
+  } = {
+    customFieldOptions: await copilot.listCustomFieldOptions({id: fieldId})
+  }
+
+  return data.customFieldOptions
+}
