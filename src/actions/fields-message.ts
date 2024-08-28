@@ -39,3 +39,28 @@ export async function getTagsFromField(fieldId: string) {
 
   return data.customFieldOptions
 }
+
+export async function retrieveClientsWithTag(fieldLabel: string, tagId: string) {
+  const data: {
+    allClients: Awaited<ReturnType<typeof copilot.listClients>>;
+  } = {
+    allClients: await copilot.listClients({limit: 1000})
+  }
+
+  let matchingClients: any = []
+
+  const clients = data.allClients.data
+
+  clients?.forEach(client => {
+    // console.log(client)
+    if (client.customFields[fieldLabel]){
+      console.log(client)
+      if (client.customFields[fieldLabel].id === tagId){
+        matchingClients.push(client)
+      }
+    }
+  })
+
+  console.log(matchingClients)
+  return matchingClients
+}

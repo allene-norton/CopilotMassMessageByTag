@@ -19,10 +19,13 @@ type Tag = {
 export const MassMessage = ({ fields }: Props) => {
   const [values, setValues] = useState({
     customField: "",
+    customFieldLabel: "",
     selectedTag: "",
   });
   const [tags, setTags] = useState<Tag[]>([]); // State to store the tags
   console.log(tags)
+
+  const [clients, setClients] = useState<[]>([]);
 
   const handleChangeValues: ComponentProps<typeof Select>["onChange"] = async (
     event

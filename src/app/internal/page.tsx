@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { TokenGate } from '@/components/TokenGate';
 import { getSession } from '@/utils/session';
-import { getTagsFields, getTagsFromField } from '@/actions/fields-message';
+import { getTagsFields, retrieveClientsWithTag } from '@/actions/fields-message';
 import { MassMessage } from '@/app/features/MassMessage';
 
 /**
@@ -16,9 +16,8 @@ async function Content({ searchParams }: { searchParams: SearchParams }) {
   console.log({ data });
   const tagsFields = await getTagsFields()
   console.log(tagsFields)
-  console.log(searchParams)
-  // const fieldOptions = await getTagsFromField('96384d42-ddbc-44d2-b93f-0d76247075c9')
-  // console.log(fieldOptions.data)
+  // const clientData = await retrieveClientsWithTag("sampleTags","tag")
+  // console.log(clientData)
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
