@@ -1,5 +1,6 @@
 'use client'
 import { ComponentProps, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { MultiSelectFields, ValuesType, Client } from "@/app/types";
 import { Select, MenuItem } from "@mui/material"; // Assuming you're using Material-UI's Select component
 
@@ -17,6 +18,8 @@ type Tag = {
 };
 
 export const MassMessage = ({ fields }: Props) => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token") ?? undefined;
   const [values, setValues] = useState<ValuesType>({
     customField: "",
     customFieldLabel: "",
@@ -49,7 +52,7 @@ export const MassMessage = ({ fields }: Props) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ fieldId: value }),
+          body: JSON.stringify({ fieldId: value, token: token }),
         });
 
         if (response.ok) {
@@ -85,7 +88,7 @@ export const MassMessage = ({ fields }: Props) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fieldLabel: values.customFieldLabel, tagLabel: tagLabel }),
+        body: JSON.stringify({ fieldLabel: values.customFieldLabel, tagLabel: tagLabel, token: token }),
       });
 
       if (response.ok) {

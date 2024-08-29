@@ -5,7 +5,7 @@ import { MultiSelectFields, Client } from '@/app/types';
 const apiKey = need<string>(
   process.env.COPILOT_API_KEY
 );
-console.log({env: process.env})
+// console.log({env: process.env})
 // const copilot = copilotApi({
 //   apiKey: apiKey
 // });
@@ -33,9 +33,10 @@ export async function getTagsFields () {
   return multiSelectFields
 }
 
-export async function getTagsFromField(fieldId: string) {
+export async function getTagsFromField(fieldId: string, token: string | undefined) {
   const copilot = copilotApi({
-    apiKey: apiKey
+    apiKey: apiKey,
+    token: token
   });
   const data: {
     customFieldOptions: Awaited<ReturnType<typeof copilot.listCustomFieldOptions>>;
@@ -46,9 +47,10 @@ export async function getTagsFromField(fieldId: string) {
   return data.customFieldOptions
 }
 
-export async function retrieveClientsWithTag(fieldLabel: string, tagLabel: string) {
+export async function retrieveClientsWithTag(fieldLabel: string, tagLabel: string, token: string | undefined) {
   const copilot = copilotApi({
-    apiKey: apiKey
+    apiKey: apiKey,
+    token: token
   });
   const data: {
     allClients: Awaited<ReturnType<typeof copilot.listClients>>;

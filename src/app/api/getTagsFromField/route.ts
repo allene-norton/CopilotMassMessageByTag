@@ -3,13 +3,13 @@ import { getTagsFromField } from '@/actions/fields-message';
 
 export async function POST(request: NextRequest) {
   try {
-    const { fieldId } = await request.json(); // Extract `fieldId` from the request body
+    const { fieldId, token } = await request.json(); // Extract `fieldId` from the request body
 
     if (!fieldId) {
       return NextResponse.json({ error: 'Invalid fieldId' }, { status: 400 });
     }
 
-    const tags = await getTagsFromField(fieldId);
+    const tags = await getTagsFromField(fieldId, token);
     console.log(tags)
     return NextResponse.json(tags, { status: 200 });
   } catch (error) {
