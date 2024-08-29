@@ -77,9 +77,13 @@ export async function sendMessage (clients: Array<Client>,  messageContent: stri
     token: token
   });
 
-    // send clients array from MM component  
+  // send clients array from MM component  
   // iterate through client objects
   //for each client ID => find message channel with membershipEntityId
   // push channelIds to array
   //for each channelId, send message (messageContent)
+
+  return "function hit"
+
+    
 }

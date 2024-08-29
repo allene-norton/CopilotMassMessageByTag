@@ -2,7 +2,7 @@
 import { ComponentProps, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { MultiSelectFields, ValuesType, Client } from '@/app/types';
-import { Select, MenuItem, TextField } from '@mui/material'; // Assuming you're using Material-UI's Select component
+import { Select, MenuItem, TextField, Button } from '@mui/material'; // Assuming you're using Material-UI's Select component
 
 type Props = {
   fields: MultiSelectFields[];
@@ -118,6 +118,31 @@ export const MassMessage = ({ fields }: Props) => {
     setMessage(e.target.value);
   };
 
+  const handleSubmitMessage = async () => {
+    try {
+      const response = await fetch('/api/sendMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          clients: clients,
+          messageContent: message,
+          token: token,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('SUCCESS')
+      } else {
+        console.error('Failed to fetch send message:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  }
+
   return (
     <div>
       <h2>MM</h2>
@@ -189,6 +214,9 @@ export const MassMessage = ({ fields }: Props) => {
               value={message}
               onChange={(e) => handleInputChange(e)}
             />
+          </div>
+          <div>
+            <Button variant="outlined" onClick={handleSubmitMessage}>Send Mass Message</Button>
           </div>
         </div>
       )}
