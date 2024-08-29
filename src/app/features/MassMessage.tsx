@@ -29,7 +29,7 @@ export const MassMessage = ({ fields }: Props) => {
 
   const [clients, setClients] = useState<Client[]>([]);
 
-  const [message, setMessage] = useState<string>("")
+  const [message, setMessage] = useState<string>('');
 
   const handleChangeValues: ComponentProps<typeof Select>['onChange'] = async (
     event,
@@ -112,9 +112,11 @@ export const MassMessage = ({ fields }: Props) => {
 
   // console.log(clients)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value)
-  }
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setMessage(e.target.value);
+  };
 
   return (
     <div>
@@ -179,14 +181,14 @@ export const MassMessage = ({ fields }: Props) => {
             </ul>
           </div>
           <div>
-          <TextField
-          id="outlined-multiline-flexible"
-          label="Multiline"
-          multiline
-          maxRows={50}
-          value={message}
-          onChange={e => handleInputChange(e)}
-        />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Multiline"
+              multiline
+              maxRows={50}
+              value={message}
+              onChange={(e) => handleInputChange(e)}
+            />
           </div>
         </div>
       )}

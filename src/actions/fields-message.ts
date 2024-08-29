@@ -70,3 +70,16 @@ export async function retrieveClientsWithTag(fieldLabel: string, tagLabel: strin
   // console.log(`matchingClients: ${matchingClients[0].givenName}`)
   return matchingClients
 }
+
+export async function sendMessage (clients: Array<Client>,  messageContent: string | undefined, token: string | undefined,) {
+  const copilot = copilotApi({
+    apiKey: apiKey,
+    token: token
+  });
+
+    // send clients array from MM component  
+  // iterate through client objects
+  //for each client ID => find message channel with membershipEntityId
+  // push channelIds to array
+  //for each channelId, send message (messageContent)
+}
