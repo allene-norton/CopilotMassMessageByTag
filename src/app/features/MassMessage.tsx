@@ -33,7 +33,7 @@ export const MassMessage = ({ fields }: Props) => {
   const handleChangeValues: ComponentProps<typeof Select>["onChange"] = async (
     event
   ) => {
-    console.log(event)
+    // console.log(event)
     const field = event.target.name;
     const value = event.target.value;
     // Filter fields from props to where e.target.value here matches the field object. Set values.customFieldLabel to fieldObject.name
@@ -68,7 +68,7 @@ export const MassMessage = ({ fields }: Props) => {
 
 };
 
-  console.log(values)
+  // console.log(values)
   const handleTagChange: ComponentProps<typeof Select>["onChange"] = async (event) => {
     const value = event.target.value;
     const tagLabel = tags.filter(tag => tag.id === event.target.value)[0].key
@@ -93,7 +93,7 @@ export const MassMessage = ({ fields }: Props) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(`MYDATA: ${data[0].givenName}`)
+        // console.log(`MYDATA: ${data[0].givenName}`)
         setClients(data); 
       } else {
         console.error('Failed to fetch tags:', response.statusText);
@@ -103,7 +103,7 @@ export const MassMessage = ({ fields }: Props) => {
     }
   };
 
-  console.log(clients)
+  // console.log(clients)
 
   return (
     

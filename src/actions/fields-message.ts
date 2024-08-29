@@ -5,10 +5,6 @@ import { MultiSelectFields, Client } from '@/app/types';
 const apiKey = need<string>(
   process.env.COPILOT_API_KEY
 );
-// console.log({env: process.env})
-// const copilot = copilotApi({
-//   apiKey: apiKey
-// });
 
 export async function getTagsFields () {
   const copilot = copilotApi({
@@ -63,16 +59,14 @@ export async function retrieveClientsWithTag(fieldLabel: string, tagLabel: strin
   const clients = data.allClients.data
 
   clients?.forEach(client => {
-    // console.log(client)
     if (client.customFields[fieldLabel]){
-      // console.log(client)
       if (client.customFields[fieldLabel].includes(tagLabel)){
-        console.log('hello')
+        // console.log('hello')
         matchingClients.push(client)
       }
     }
   })
 
-  console.log(`matchingClients: ${matchingClients[0].givenName}`)
+  // console.log(`matchingClients: ${matchingClients[0].givenName}`)
   return matchingClients
 }

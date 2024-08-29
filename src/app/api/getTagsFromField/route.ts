@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     }
 
     const tags = await getTagsFromField(fieldId, token);
-    console.log(tags)
+    // console.log(tags)
     return NextResponse.json(tags, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch tags' }, { status: 500 });

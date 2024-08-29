@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     }
 
     const clients = await retrieveClientsWithTag(fieldLabel, tagLabel, token);
-    console.log(clients)
+    // console.log(clients)
     return NextResponse.json(clients, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch clients' }, { status: 500 });
