@@ -1,6 +1,6 @@
 'use client'
 import { ComponentProps, useState } from "react";
-import { MultiSelectFields } from "@/app/types";
+import { MultiSelectFields, ValuesType, Client } from "@/app/types";
 import { Select, MenuItem } from "@mui/material"; // Assuming you're using Material-UI's Select component
 
 type Props = {
@@ -17,16 +17,15 @@ type Tag = {
 };
 
 export const MassMessage = ({ fields }: Props) => {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<ValuesType>({
     customField: "",
     customFieldLabel: "",
     selectedTag: "",
     selectedTagLabel: "",
   });
   const [tags, setTags] = useState<Tag[]>([]); // State to store the tags
-  console.log(tags)
 
-  const [clients, setClients] = useState<[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
 
   const handleChangeValues: ComponentProps<typeof Select>["onChange"] = async (
     event
@@ -70,11 +69,15 @@ export const MassMessage = ({ fields }: Props) => {
   const handleTagChange: ComponentProps<typeof Select>["onChange"] = async (event) => {
     const value = event.target.value;
     const tagLabel = tags.filter(tag => tag.id === event.target.value)[0].key
+
+    if (typeof value === "string" || value === undefined) {
+
     setValues({
       ...values,
       selectedTag: value,
       selectedTagLabel: tagLabel
     });
+  }
 
     try {
       const response = await fetch('/api/retrieveClientsWithTag', {

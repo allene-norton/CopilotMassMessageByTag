@@ -7,6 +7,13 @@ export type MultiSelectFields = {
   object?: string | undefined
 }
 
+export type ValuesType = {
+  customField: string | undefined;
+  customFieldLabel: string | undefined;
+  selectedTag: string | undefined;
+  selectedTagLabel: string | undefined;
+};
+
 export type Client = {
   avatarImageUrl?: string | undefined;
     companyId?: string | undefined;
