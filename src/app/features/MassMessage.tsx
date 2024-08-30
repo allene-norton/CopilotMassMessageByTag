@@ -2,7 +2,8 @@
 import { ComponentProps, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { MultiSelectFields, ValuesType, Client } from "@/app/types";
-import { Select, MenuItem } from "@mui/material"; // Assuming you're using Material-UI's Select component
+import { MenuItem } from "@mui/material"; // Assuming you're using Material-UI's Select component
+import { Select } from "@/components/Select";
 
 type Props = {
   fields: MultiSelectFields[];
