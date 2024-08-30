@@ -6,9 +6,10 @@ const apiKey = need<string>(
   process.env.COPILOT_API_KEY
 );
 
-export async function getTagsFields () {
+export async function getTagsFields (token: string | undefined) { 
   const copilot = copilotApi({
-    apiKey: apiKey
+    apiKey: apiKey,
+    token: token
   });
   const data: {
     customFields: Awaited<ReturnType<typeof copilot.listCustomFields>>;

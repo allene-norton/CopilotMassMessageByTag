@@ -4,7 +4,7 @@ import React, { ComponentProps } from "react";
 
 interface Props {
   label?: string;
-  value: string;
+  value: string | undefined;
   onChange: ComponentProps<typeof Muiselect>["onChange"];
   children: React.ReactNode;
   name?: string;

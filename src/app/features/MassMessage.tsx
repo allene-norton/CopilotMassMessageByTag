@@ -1,8 +1,10 @@
-'use client';
-import { ComponentProps, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { MultiSelectFields, ValuesType, Client } from '@/app/types';
-import { Select, MenuItem, TextField, Button } from '@mui/material'; // Assuming you're using Material-UI's Select component
+'use client'
+import { ComponentProps, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { MultiSelectFields, ValuesType, Client } from "@/app/types";
+import { MenuItem, Select, TextField, Button } from "@mui/material"; 
+import { ariaHidden } from "@mui/material/Modal/ModalManager";
+// import { Select } from "@/components/Select";
 
 type Props = {
   fields: MultiSelectFields[];
@@ -151,6 +153,7 @@ export const MassMessage = ({ fields }: Props) => {
         onChange={handleChangeValues}
         name="customField"
         displayEmpty
+        inputProps={{"aria-hidden":"false"}}
         renderValue={(selected) => {
           const selectedField = fields.find((field) => field.id === selected);
           if (!selected) {
@@ -168,28 +171,27 @@ export const MassMessage = ({ fields }: Props) => {
 
       {tags.length > 0 && (
         <div>
-          <div>
-            <h3>Select an Available Tag:</h3>
-            <Select
-              value={values.selectedTag}
-              onChange={handleTagChange}
-              displayEmpty
-              name="selectedTag"
-              renderValue={(selected) => {
-                const selectedTag = tags.find((tag) => tag.id === selected);
-                if (!selected) {
-                  return <div>Select a tag</div>;
-                }
-                return selectedTag?.label || 'Select a tag';
-              }}
-            >
-              {tags.map((tag: Tag) => (
-                <MenuItem key={tag.id} value={tag.id}>
-                  {tag.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
+          <h3>Select an Available Tag:</h3>
+          <Select
+            value={values.selectedTag}
+            onChange={handleTagChange}
+            displayEmpty
+            name="selectedTag"
+            inputProps={{"aria-hidden":"false"}}
+            renderValue={(selected) => {
+              const selectedTag = tags.find((tag) => tag.id === selected);
+              if (!selected) {
+                return <div>Select a tag</div>;
+              }
+              return selectedTag?.label || "Select a tag";
+            }}
+          >
+            {tags.map((tag: Tag) => (
+              <MenuItem key={tag.id} value={tag.id}>
+                {tag.label}
+              </MenuItem>
+            ))}
+          </Select>
         </div>
       )}
 
