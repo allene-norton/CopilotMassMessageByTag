@@ -2,8 +2,9 @@
 import { ComponentProps, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { MultiSelectFields, ValuesType, Client } from "@/app/types";
-import { MenuItem } from "@mui/material"; // Assuming you're using Material-UI's Select component
-import { Select } from "@/components/Select";
+import { MenuItem, Select } from "@mui/material"; 
+import { ariaHidden } from "@mui/material/Modal/ModalManager";
+// import { Select } from "@/components/Select";
 
 type Props = {
   fields: MultiSelectFields[];
@@ -116,6 +117,7 @@ export const MassMessage = ({ fields }: Props) => {
         onChange={handleChangeValues}
         name="customField"
         displayEmpty
+        inputProps={{"aria-hidden":"false"}}
         renderValue={(selected) => {
           const selectedField = fields.find(
             (field) => field.id === selected
