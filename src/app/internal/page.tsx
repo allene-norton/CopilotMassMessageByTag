@@ -14,7 +14,11 @@ export const revalidate = 180;
 async function Content({ searchParams }: { searchParams: SearchParams }) {
   const data = await getSession(searchParams);
   console.log({ data });
-  const tagsFields = await getTagsFields()
+  
+  const inputToken: string | string[] | undefined = searchParams.token
+  const tokenValue = typeof inputToken === 'string' ? inputToken : undefined;
+
+  const tagsFields = await getTagsFields(tokenValue)
   console.log(tagsFields)
   // const clientData = await retrieveClientsWithTag("sampleTags","tag")
   // console.log(clientData)
