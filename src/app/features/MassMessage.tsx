@@ -2,7 +2,7 @@
 import { ComponentProps, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { MultiSelectFields, ValuesType, Client } from "@/app/types";
-import { MenuItem, Select } from "@mui/material"; 
+import { MenuItem, Select, TextField, Button } from "@mui/material"; 
 import { ariaHidden } from "@mui/material/Modal/ModalManager";
 // import { Select } from "@/components/Select";
 
@@ -11,7 +11,6 @@ type Props = {
 };
 
 type Tag = {
-
   id?: string | undefined;
   key?: string | undefined;
   label?: string | undefined;
@@ -21,30 +20,34 @@ type Tag = {
 
 export const MassMessage = ({ fields }: Props) => {
   const searchParams = useSearchParams();
-  const token = searchParams.get("token") ?? undefined;
+  const token = searchParams.get('token') ?? undefined;
   const [values, setValues] = useState<ValuesType>({
-    customField: "",
-    customFieldLabel: "",
-    selectedTag: "",
-    selectedTagLabel: "",
+    customField: '',
+    customFieldLabel: '',
+    selectedTag: '',
+    selectedTagLabel: '',
   });
   const [tags, setTags] = useState<Tag[]>([]); // State to store the tags
 
   const [clients, setClients] = useState<Client[]>([]);
 
-  const handleChangeValues: ComponentProps<typeof Select>["onChange"] = async (
-    event
+  const [message, setMessage] = useState<string>('');
+
+  const handleChangeValues: ComponentProps<typeof Select>['onChange'] = async (
+    event,
   ) => {
-    console.log(event)
+    // console.log(event)
     const field = event.target.name;
     const value = event.target.value;
     // Filter fields from props to where e.target.value here matches the field object. Set values.customFieldLabel to fieldObject.name
-    const fieldForLabel = fields.filter(field => field.id === event.target.value)[0]
+    const fieldForLabel = fields.filter(
+      (field) => field.id === event.target.value,
+    )[0];
 
     setValues({
       ...values,
       [field]: value,
-      customFieldLabel: fieldForLabel.key
+      customFieldLabel: fieldForLabel.key,
     });
     // Fetch tags when a new customField is selected
     if (field === 'customField' && value) {
@@ -67,22 +70,22 @@ export const MassMessage = ({ fields }: Props) => {
         console.error('Error fetching tags:', error);
       }
     }
+  };
 
-};
-
-  console.log(values)
-  const handleTagChange: ComponentProps<typeof Select>["onChange"] = async (event) => {
+  // console.log(values)
+  const handleTagChange: ComponentProps<typeof Select>['onChange'] = async (
+    event,
+  ) => {
     const value = event.target.value;
-    const tagLabel = tags.filter(tag => tag.id === event.target.value)[0].key
+    const tagLabel = tags.filter((tag) => tag.id === event.target.value)[0].key;
 
-    if (typeof value === "string" || value === undefined) {
-
-    setValues({
-      ...values,
-      selectedTag: value,
-      selectedTagLabel: tagLabel
-    });
-  }
+    if (typeof value === 'string' || value === undefined) {
+      setValues({
+        ...values,
+        selectedTag: value,
+        selectedTagLabel: tagLabel,
+      });
+    }
 
     try {
       const response = await fetch('/api/retrieveClientsWithTag', {
@@ -90,13 +93,17 @@ export const MassMessage = ({ fields }: Props) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fieldLabel: values.customFieldLabel, tagLabel: tagLabel, token: token }),
+        body: JSON.stringify({
+          fieldLabel: values.customFieldLabel,
+          tagLabel: tagLabel,
+          token: token,
+        }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log(`MYDATA: ${data[0].givenName}`)
-        setClients(data); 
+        // console.log(`MYDATA: ${data[0].givenName}`)
+        setClients(data);
       } else {
         console.error('Failed to fetch tags:', response.statusText);
       }
@@ -105,11 +112,40 @@ export const MassMessage = ({ fields }: Props) => {
     }
   };
 
-  console.log(clients)
+  // console.log(clients)
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSubmitMessage = async () => {
+    try {
+      const response = await fetch('/api/sendMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          clients: clients,
+          messageContent: message,
+          token: token,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('SUCCESS')
+      } else {
+        console.error('Failed to fetch send message:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  }
 
   return (
-    
-
     <div>
       <h2>MM</h2>
       <Select
@@ -119,13 +155,11 @@ export const MassMessage = ({ fields }: Props) => {
         displayEmpty
         inputProps={{"aria-hidden":"false"}}
         renderValue={(selected) => {
-          const selectedField = fields.find(
-            (field) => field.id === selected
-          );
+          const selectedField = fields.find((field) => field.id === selected);
           if (!selected) {
             return <div>Select a custom field</div>;
           }
-          return selectedField?.name || "Select a custom field";
+          return selectedField?.name || 'Select a custom field';
         }}
       >
         {fields.map((option) => (
@@ -163,12 +197,29 @@ export const MassMessage = ({ fields }: Props) => {
 
       {clients.length > 0 && (
         <div>
-          <h3>Clients with tag:</h3>
-          <ul>
-      {clients.map((client, index) => (
-        <li key={index}>{client.givenName} {client.familyName}</li>
-      ))}
-    </ul>
+          <div>
+            <h3>Clients with tag:</h3>
+            <ul>
+              {clients.map((client, index) => (
+                <li key={index}>
+                  {client.givenName} {client.familyName}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Multiline"
+              multiline
+              maxRows={50}
+              value={message}
+              onChange={(e) => handleInputChange(e)}
+            />
+          </div>
+          <div>
+            <Button variant="outlined" onClick={handleSubmitMessage}>Send Mass Message</Button>
+          </div>
         </div>
       )}
     </div>
