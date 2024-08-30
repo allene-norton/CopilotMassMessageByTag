@@ -143,6 +143,7 @@ export const MassMessage = ({ fields }: Props) => {
             onChange={handleTagChange}
             displayEmpty
             name="selectedTag"
+            inputProps={{"aria-hidden":"false"}}
             renderValue={(selected) => {
               const selectedTag = tags.find((tag) => tag.id === selected);
               if (!selected) {
