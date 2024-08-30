@@ -31,3 +31,14 @@ export type Client = {
     object?: string | undefined;
     status?: string | undefined;
 }
+
+export type MessageChannelData = {
+  id?: string | undefined;
+  object?: string | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  membershipType?: string | undefined;
+  membershipEntityId?: string | undefined;
+  memberIds?: string[] | undefined;
+  lastMessageDate?: any;
+}

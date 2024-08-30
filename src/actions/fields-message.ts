@@ -1,6 +1,6 @@
 import { copilotApi } from 'copilot-node-sdk';
 import { need } from '@/utils/need';
-import { MultiSelectFields, Client } from '@/app/types';
+import { MultiSelectFields, Client, MessageChannelData } from '@/app/types';
 
 const apiKey = need<string>(
   process.env.COPILOT_API_KEY
@@ -72,19 +72,51 @@ export async function retrieveClientsWithTag(fieldLabel: string, tagLabel: strin
   return matchingClients
 }
 
-export async function sendMessage (clients: Array<Client>,  messageContent: string | undefined, token: string | undefined,) {
+export async function sendMessage(clients: Array<Client>, messageContent: string, token: string | undefined) {
   const copilot = copilotApi({
     apiKey: apiKey,
-    token: token
+    token: token,
   });
 
-  // send clients array from MM component  
-  // iterate through client objects
-  //for each client ID => find message channel with membershipEntityId
-  // push channelIds to array
-  //for each channelId, send message (messageContent)
+  const messageChannels: Array<MessageChannelData> = [];
 
-  return "function hit"
+  // get messageChannels for clients from ID
+  for (const client of clients) {
+    try {
+      const clientChannelData = await copilot.listMessageChannels({ membershipEntityId: client.id });
+      if (clientChannelData.data && clientChannelData.data.length > 0) {
+        const clientChannel = clientChannelData.data[0];
+        messageChannels.push(clientChannel);
+      } else {
+        console.warn(`No message channels found for client with id: ${client.id}`);
+      }
+    } catch (error) {
+      console.error(`Failed to fetch message channels for client with id: ${client.id}`, error);
+    }
+  }
 
-    
+  console.log({ messageChannels: messageChannels });
+
+  for (const channel of messageChannels) {
+    try {
+      const sendMassMessage = await copilot.sendMessage({requestBody: {text: messageContent, channelId: channel.id}})
+    } catch (error) {
+      console.error(`Failed to send message`, error);
+    }
+  }
+
+
+  return "function hit";
 }
+
+
+/*{
+    id?: string | undefined;
+    object?: string | undefined;
+    createdAt?: string | undefined;
+    updatedAt?: string | undefined;
+    membershipType?: string | undefined;
+    membershipEntityId?: string | undefined;
+    memberIds?: string[] | undefined;
+    lastMessageDate?: any;
+}[] | undefined */
