@@ -1,6 +1,6 @@
 'use client'
 import { ComponentProps, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, redirect } from "next/navigation";
 import { MultiSelectFields, ValuesType, Client } from "@/app/types";
 import { MenuItem, Select, TextField, Button } from "@mui/material"; 
 import { ariaHidden } from "@mui/material/Modal/ModalManager";
@@ -140,6 +140,7 @@ export const MassMessage = ({ fields }: Props) => {
         const alertMessage: string = "Message(s) sent successfully."
         alert(alertMessage)
         setMessage('')
+        
       } else {
         console.error('Failed to fetch send message:', response.statusText);
       }

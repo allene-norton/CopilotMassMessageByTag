@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendMessage } from '@/actions/fields-message';
 
+
 export async function POST(request: NextRequest) {
   try {
     const { clients, messageContent, token } = await request.json(); 
