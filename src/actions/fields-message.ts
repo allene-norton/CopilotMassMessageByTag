@@ -107,7 +107,7 @@ export async function sendMessage(clients: Array<Client>, messageContent: string
   }
 
 
-  return "function hit";
+  return "Message(s) sent successfully";
 }
 
 
