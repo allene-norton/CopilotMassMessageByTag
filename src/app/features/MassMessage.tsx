@@ -1,9 +1,9 @@
-'use client'
-import { ComponentProps, useState } from "react";
-import { useSearchParams, redirect } from "next/navigation";
-import { MultiSelectFields, ValuesType, Client } from "@/app/types";
-import { MenuItem, Select, TextField, Button } from "@mui/material"; 
-import { ariaHidden } from "@mui/material/Modal/ModalManager";
+'use client';
+import { ComponentProps, useState } from 'react';
+import { useSearchParams, redirect } from 'next/navigation';
+import { MultiSelectFields, ValuesType, Client } from '@/app/types';
+import { MenuItem, Select, TextField, Button } from '@mui/material';
+import { ariaHidden } from '@mui/material/Modal/ModalManager';
 // import { Select } from "@/components/Select";
 
 type Props = {
@@ -136,18 +136,17 @@ export const MassMessage = ({ fields }: Props) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('SUCCESS')
-        const alertMessage: string = "Message(s) sent successfully."
-        alert(alertMessage)
-        setMessage('')
-        
+        console.log('SUCCESS');
+        const alertMessage: string = 'Message(s) sent successfully.';
+        alert(alertMessage);
+        setMessage('');
       } else {
         console.error('Failed to fetch send message:', response.statusText);
       }
     } catch (error) {
       console.error('Error sending message:', error);
     }
-  }
+  };
 
   return (
     <div>
@@ -157,7 +156,7 @@ export const MassMessage = ({ fields }: Props) => {
         onChange={handleChangeValues}
         name="customField"
         displayEmpty
-        inputProps={{"aria-hidden":"false"}}
+        inputProps={{ 'aria-hidden': 'false' }}
         renderValue={(selected) => {
           const selectedField = fields.find((field) => field.id === selected);
           if (!selected) {
@@ -183,13 +182,13 @@ export const MassMessage = ({ fields }: Props) => {
             onChange={handleTagChange}
             displayEmpty
             name="selectedTag"
-            inputProps={{"aria-hidden":"false"}}
+            inputProps={{ 'aria-hidden': 'false' }}
             renderValue={(selected) => {
               const selectedTag = tags.find((tag) => tag.id === selected);
               if (!selected) {
                 return <div>Select a tag</div>;
               }
-              return selectedTag?.label || "Select a tag";
+              return selectedTag?.label || 'Select a tag';
             }}
           >
             {tags.map((tag: Tag) => (
@@ -217,9 +216,19 @@ export const MassMessage = ({ fields }: Props) => {
               onChange={(e) => handleInputChange(e)}
             />
           </div>
-          <br/>
-          <div>
-            <Button variant="outlined" onClick={handleSubmitMessage}>Send Mass Message</Button>
+          <br />
+          <div className="flex space-x-4">
+            <Button variant="outlined" onClick={handleSubmitMessage}>
+              Send Mass Message
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                window.open('https://dashboard.copilot.com/messaging', '_self');
+              }}
+            >
+              Go to Messages
+            </Button>
           </div>
         </div>
       )}
