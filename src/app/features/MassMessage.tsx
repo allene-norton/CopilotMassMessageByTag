@@ -167,7 +167,7 @@ export const MassMessage = ({ fields, portalUrl }: Props) => {
           return selectedField?.name || 'Select a custom field';
         }}
       >
-        {fields.map((option) => (
+        {fields.sort((a, b) => (a.name?.localeCompare(b.name || '') || 0)).map((option) => (
           <MenuItem key={option.id} value={option.id}>
             {option.name}
           </MenuItem>
