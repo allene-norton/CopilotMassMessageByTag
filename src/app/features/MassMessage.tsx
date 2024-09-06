@@ -229,7 +229,7 @@ export const MassMessage = ({ fields, portalUrl }: Props) => {
                 window.parent.postMessage({
                   type: 'history.push',
                   route: 'messages'
-                }, `https://${messagesUrl}`);
+                }, `https://dashboard.copilot.com`);
               }}
             >
               Go to Messages
