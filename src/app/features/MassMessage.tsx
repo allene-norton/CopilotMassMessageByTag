@@ -151,7 +151,7 @@ export const MassMessage = ({ fields }: Props) => {
 
   return (
     <div>
-      <h2>MM</h2>
+      <h3>Select the tags field:</h3>
       <Select
         value={values.customField}
         onChange={handleChangeValues}
@@ -172,6 +172,8 @@ export const MassMessage = ({ fields }: Props) => {
           </MenuItem>
         ))}
       </Select>
+      <br />
+      <br />
 
       {tags.length > 0 && (
         <div>
@@ -201,26 +203,21 @@ export const MassMessage = ({ fields }: Props) => {
 
       {clients.length > 0 && (
         <div>
+          <br />
+          <br />
           <div>
-            <h3>Clients with tag:</h3>
-            <ul>
-              {clients.map((client, index) => (
-                <li key={index}>
-                  {client.givenName} {client.familyName}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
+            <h3>Message Content:</h3>
             <TextField
               id="outlined-multiline-flexible"
-              label="Multiline"
+              label="Enter message content"
               multiline
+              fullWidth={true}
               maxRows={50}
               value={message}
               onChange={(e) => handleInputChange(e)}
             />
           </div>
+          <br/>
           <div>
             <Button variant="outlined" onClick={handleSubmitMessage}>Send Mass Message</Button>
           </div>
