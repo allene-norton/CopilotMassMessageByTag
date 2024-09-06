@@ -137,6 +137,9 @@ export const MassMessage = ({ fields }: Props) => {
       if (response.ok) {
         const data = await response.json();
         console.log('SUCCESS')
+        const alertMessage: string = "Message(s) sent successfully."
+        alert(alertMessage)
+        setMessage('')
       } else {
         console.error('Failed to fetch send message:', response.statusText);
       }
