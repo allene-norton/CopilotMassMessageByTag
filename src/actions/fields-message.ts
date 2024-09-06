@@ -99,7 +99,8 @@ export async function sendMessage(clients: Array<Client>, messageContent: string
 
   for (const channel of messageChannels) {
     try {
-      const sendMassMessage = await copilot.sendMessage({requestBody: {text: messageContent, channelId: channel.id}})
+      if (channel.id){
+      const sendMassMessage = await copilot.sendMessage({requestBody: {text: messageContent, channelId: channel.id}})}
     } catch (error) {
       console.error(`Failed to send message`, error);
     }
