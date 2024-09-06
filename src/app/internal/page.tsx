@@ -15,6 +15,8 @@ async function Content({ searchParams }: { searchParams: SearchParams }) {
   const data = await getSession(searchParams);
   console.log({ data });
   
+  const portalUrl: string | undefined = data.workspace.portalUrl
+  
   const inputToken: string | string[] | undefined = searchParams.token
   const tokenValue = typeof inputToken === 'string' ? inputToken : undefined;
 
@@ -32,7 +34,7 @@ async function Content({ searchParams }: { searchParams: SearchParams }) {
         </h2>
         <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
         </p>
-        <MassMessage fields={tagsFields} />
+        <MassMessage fields={tagsFields} portalUrl={portalUrl}/>
       </div>
     </main>
   );

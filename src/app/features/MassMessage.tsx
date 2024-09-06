@@ -8,6 +8,7 @@ import { ariaHidden } from '@mui/material/Modal/ModalManager';
 
 type Props = {
   fields: MultiSelectFields[];
+  portalUrl: string | undefined;
 };
 
 type Tag = {
@@ -18,9 +19,10 @@ type Tag = {
   object?: string | undefined;
 };
 
-export const MassMessage = ({ fields }: Props) => {
+export const MassMessage = ({ fields, portalUrl }: Props) => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token') ?? undefined;
+  const messagesUrl: string | undefined = portalUrl
   const [values, setValues] = useState<ValuesType>({
     customField: '',
     customFieldLabel: '',
@@ -224,7 +226,10 @@ export const MassMessage = ({ fields }: Props) => {
             <Button
               variant="outlined"
               onClick={() => {
-                window.open('https://dashboard.copilot.com/messaging', '_self');
+                window.parent.postMessage({
+                  type: 'history.push',
+                  route: 'messages'
+                }, `https://${messagesUrl}`);
               }}
             >
               Go to Messages
