@@ -20,6 +20,8 @@ async function Content({ searchParams }: { searchParams: SearchParams }) {
   const inputToken: string | string[] | undefined = searchParams.token
   const tokenValue = typeof inputToken === 'string' ? inputToken : undefined;
 
+  console.log({inputToken: inputToken})
+
   const tagsFields = await getTagsFields(tokenValue)
   console.log(tagsFields)
   // const clientData = await retrieveClientsWithTag("sampleTags","tag")
