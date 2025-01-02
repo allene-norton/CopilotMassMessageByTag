@@ -13,7 +13,7 @@ export async function getSession(searchParams: SearchParams) {
     process.env.COPILOT_API_KEY,
     'COPILOT_API_KEY is required, guide available at: https://docs.copilot.com/docs/custom-apps-setting-up-your-first-app#step-2-register-your-app-and-get-an-api-key',
   );
-
+console.log({apiKey: apiKey})
   const copilot = copilotApi({
     apiKey: apiKey,
     token:
@@ -30,12 +30,16 @@ export async function getSession(searchParams: SearchParams) {
   } = {
     workspace: await copilot.retrieveWorkspace(),
   };
+  console.log({dataa: data})
+
   const tokenPayload = await copilot.getTokenPayload?.();
+  console.log({tokenPayloadd: tokenPayload})
+
 
   if (tokenPayload?.clientId) {
     data.client = await copilot.retrieveClient({ id: tokenPayload.clientId });
   }
-  if (tokenPayload?.companyId) {
+  if (tokenPayload?.companyId && tokenPayload.companyId !== 'default') {
     data.company = await copilot.retrieveCompany({
       id: tokenPayload.companyId,
     });
