@@ -26,8 +26,8 @@ async function Content({ searchParams }: { searchParams: SearchParams }) {
 
   const tagsFields = await getTagsFields(tokenValue)
   console.log(tagsFields)
-  const clientData = await retrieveClientsWithTag("sampleTags","tag")
-  console.log(clientData)
+  // const clientData = await retrieveClientsWithTag("sampleTags","tag")
+  // console.log(clientData)
   
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
